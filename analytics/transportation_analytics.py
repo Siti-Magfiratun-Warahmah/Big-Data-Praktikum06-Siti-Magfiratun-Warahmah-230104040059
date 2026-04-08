@@ -82,6 +82,24 @@ def mobility_trend(df):
     return df["fare"].resample("10s").sum()
 
 # ===========================
+# NEW (PRAKTIKUM 6)
+# WINDOW AGGREGATION
+# ===========================
+def traffic_per_window(df):
+    """
+    Agregasi jumlah trip per menit (windowing)
+    Digunakan untuk visualisasi skala besar (efficient rendering)
+    """
+    if df.empty:
+        return None
+
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+
+    return df.set_index("timestamp") \
+             .resample("1min") \
+             .size()
+
+# ===========================
 # ANOMALY DETECTION
 # ===========================
 def detect_anomaly(df):

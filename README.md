@@ -1,33 +1,33 @@
-# PRAKTIKUM 5 – Big Data Analytics & Decision-Oriented System
+# PRAKTIKUM 6 – Real-Time Analytics & Visualisasi Data Skala Besar
 
 **Proyek:** BIGDATA-SPARK-230104040059
 
-Program ini dibuat untuk memenuhi instruksi **Praktikum 5 Mata Kuliah Teknologi Big Data**. Praktikum ini berfokus pada implementasi **Big Data Analytics berbasis streaming** serta pembangunan **Decision-Oriented System** menggunakan **Apache Spark Structured Streaming** dan **Streamlit**.
+Program ini dibuat untuk memenuhi instruksi **Praktikum 6 Mata Kuliah Teknologi Big Data**. Praktikum ini berfokus pada pengembangan **visualisasi data real-time dalam skala besar (large-scale visualization)** serta optimasi dashboard menggunakan teknik seperti window aggregation, downsampling, dan incremental visualization.
 
-Pipeline yang dibangun mensimulasikan sistem **Smart Transportation Analytics**, dimana data perjalanan diproses secara real-time untuk menghasilkan insight dan alert yang mendukung pengambilan keputusan.
+Pipeline yang dibangun merupakan pengembangan dari praktikum sebelumnya, dengan fokus pada peningkatan performa visualisasi dan kemampuan sistem dalam menangani data streaming dalam jumlah besar.
 
 ---
 
 # 👩‍🎓 Identitas Mahasiswa
 
-| Keterangan     | Informasi                                   |
-| -------------- | ------------------------------------------- |
-| Mata Kuliah    | Teknologi Big Data                          |
-| Dosen Pengampu | Muhayat, S.Ag., M.IT                        |
-| Praktikum      | Praktikum 5 – Big Data Analytics & Use Case |
-| Nama Mahasiswa | Siti Magfiratun Warahmah                    |
-| NIM            | 230104040059                                |
-| Kelas          | TI23B                                       |
+| Keterangan     | Informasi                                            |
+| -------------- | ---------------------------------------------------- |
+| Mata Kuliah    | Teknologi Big Data                                   |
+| Dosen Pengampu | Muhayat, S.Ag., M.IT                                 |
+| Praktikum      | Praktikum 6 – Real-Time Analytics & Visualisasi Data |
+| Nama Mahasiswa | Siti Magfiratun Warahmah                             |
+| NIM            | 230104040059                                         |
+| Kelas          | TI23B                                                |
 
 ---
 
 # 🚀 Deskripsi Program
 
-Program ini merupakan implementasi **streaming data pipeline berbasis Smart Transportation** yang digunakan untuk memproses data perjalanan secara real-time.
+Program ini merupakan implementasi sistem **Real-Time Analytics berbasis Big Data** pada domain Smart Transportation. Sistem ini mampu memproses data perjalanan secara streaming dan menampilkannya dalam bentuk dashboard interaktif secara real-time.
 
-Pada praktikum ini dilakukan simulasi **event streaming** menggunakan trip generator yang menghasilkan data perjalanan secara berkala. Data tersebut kemudian diproses menggunakan **Spark Structured Streaming**, disimpan dalam **Parquet Data Lake**, dan dianalisis untuk menghasilkan insight serta alert secara otomatis.
+Fokus utama pada praktikum ini adalah bagaimana menangani **data dalam skala besar** agar tetap dapat divisualisasikan dengan cepat dan responsif. Oleh karena itu, diterapkan berbagai teknik optimasi seperti window aggregation, downsampling, dan incremental visualization.
 
-Pipeline ini tidak hanya menampilkan data, tetapi juga membangun **Decision-Oriented System** yang mampu memberikan informasi penting secara real-time.
+Sistem ini tidak hanya menampilkan data, tetapi juga menghasilkan insight secara langsung sehingga dapat digunakan sebagai **Decision-Oriented System**.
 
 ---
 
@@ -45,28 +45,26 @@ stream_data/transportation
 Spark Structured Streaming
         │
         ▼
-Parquet Data Lake
-data/serving/transportation
+Parquet Data Lake (Serving Layer)
         │
         ▼
-Analytics Layer (Python)
+Aggregation Layer (Windowing)
         │
         ▼
-Alert System
+Visualization Engine (Streamlit)
         │
         ▼
-Real-Time Dashboard (Streamlit)
+Interactive Dashboard (Real-Time & Large Scale)
 ```
 
 Penjelasan alur data:
 
-1. **Trip Generator** menghasilkan data perjalanan (trip) secara berkala dalam format JSON.
-2. Data disimpan pada folder **stream_data/transportation**.
-3. **Spark Structured Streaming** membaca data sebagai streaming.
-4. Data diproses dan disimpan dalam format **Parquet** pada data lake.
-5. **Analytics Layer** menghasilkan metrik dan insight.
-6. **Alert System** mendeteksi kondisi tertentu.
-7. **Dashboard** menampilkan visualisasi real-time.
+1. **Trip Generator** menghasilkan data perjalanan secara berkala dalam format JSON.
+2. Data dibaca oleh **Spark Structured Streaming** sebagai data streaming.
+3. Data diproses secara real-time dan disimpan dalam format **Parquet**.
+4. Data kemudian melalui proses **window aggregation** untuk penyederhanaan.
+5. Hasil agregasi divisualisasikan menggunakan **Streamlit**.
+6. Dashboard menampilkan data secara real-time dan tetap responsif.
 
 ---
 
@@ -82,15 +80,13 @@ Penjelasan alur data:
 * WSL Ubuntu
 * Bash CLI
 
-Teknologi ini digunakan untuk membangun sistem **real-time analytics dan decision system** berbasis Big Data.
-
 ---
 
 # 📊 Dataset Streaming
 
-Dataset tidak berasal dari file statis, tetapi dihasilkan secara dinamis oleh **trip generator**.
+Dataset dihasilkan secara dinamis oleh **trip generator**.
 
-Contoh struktur data:
+Contoh data:
 
 ```
 {
@@ -103,94 +99,58 @@ Contoh struktur data:
 }
 ```
 
-Data disimpan pada folder:
-
-```
-stream_data/transportation
-```
-
 ---
 
 # ⚙️ Cara Kerja Program
 
 ## 1️⃣ Trip Generator
 
-Script `trip_generator.py` menghasilkan data perjalanan secara berkala.
-
-Data berisi:
-
-* trip_id
-* vehicle_type
-* location
-* distance
-* fare
-* timestamp
+Menghasilkan data perjalanan secara kontinu dalam format JSON.
 
 ---
 
 ## 2️⃣ Streaming Processing
 
-Script `streaming_trip_layer.py` membaca data streaming menggunakan Spark Structured Streaming.
-
-Data diproses dengan konsep:
-
-```
-readStream()
-writeStream()
-trigger(processingTime="5 seconds")
-```
-
-Hasil disimpan dalam format Parquet pada:
-
-```
-data/serving/transportation
-```
+Menggunakan Spark Structured Streaming untuk membaca dan memproses data secara real-time.
 
 ---
 
-## 3️⃣ Analytics & Alert System
+## 3️⃣ Aggregation Layer
 
-Data yang telah diproses kemudian dianalisis untuk menghasilkan:
-
-* Total trips
-* Total fare
-* Top location
-* Peak hour
-* Mobility trend
-* Vehicle distribution
-
-Sistem juga menghasilkan alert seperti:
-
-* High traffic volume
-* High fare detected
+Menggunakan teknik **window aggregation** untuk mengelompokkan data berdasarkan waktu agar lebih ringan untuk divisualisasikan.
 
 ---
 
-## 4️⃣ Real-Time Dashboard
+## 4️⃣ Dashboard & Visualisasi
 
-Dashboard dibangun menggunakan **Streamlit**.
-
-Menampilkan:
-
-### Key Metrics
-
-* Total Trips
-* Total Fare
-* Top Location
-* Peak Hour
+Dashboard dibangun menggunakan Streamlit dan menampilkan:
 
 ### Visualisasi
 
-* Fare per Location
+* Real-Time Traffic (Windowed)
 * Vehicle Distribution
 * Mobility Trend
+* Fare per Location
 
 ### Data
 
-* Live Trip Data
-* Abnormal Trips
+* Live Trip Data (terbatas)
 
 Dashboard diperbarui secara otomatis secara real-time.
+
+---
+
+# ⚡ Optimasi Sistem
+
+Untuk menjaga performa pada data skala besar, digunakan:
+
+* Window Aggregation
+* Downsampling
+* Incremental Visualization
+* Pembatasan data (tail data)
+* Pengaturan refresh interval
+
+Teknik ini membuat dashboard tetap cepat, ringan, dan tidak lag.
 
 ---
 
@@ -225,7 +185,7 @@ Install dependency:
 pip install pyspark streamlit pandas pyarrow
 ```
 
-Jalankan pipeline menggunakan 3 terminal:
+Jalankan 3 terminal:
 
 ### Terminal 1 — Spark Streaming
 
@@ -259,14 +219,12 @@ http://localhost:8501
 
 # 🎯 Kesimpulan
 
-Praktikum ini mengimplementasikan sistem **Big Data Analytics berbasis streaming** yang mampu memproses data perjalanan secara real-time menggunakan Spark Structured Streaming.
-
-Data yang dihasilkan oleh trip generator diproses, disimpan dalam Parquet Data Lake, dan dianalisis untuk menghasilkan insight serta alert. Dashboard Streamlit menampilkan informasi tersebut secara real-time sehingga sistem tidak hanya berfungsi sebagai visualisasi, tetapi juga sebagai **Decision-Oriented System** yang mendukung pengambilan keputusan berbasis data.
+Praktikum ini berhasil mengimplementasikan sistem **Real-Time Analytics dan Visualisasi Data Skala Besar** menggunakan Spark Structured Streaming dan Streamlit. Dengan penerapan teknik optimasi seperti window aggregation dan downsampling, sistem mampu menampilkan data secara real-time dengan performa yang tetap stabil. Sistem ini juga berperan sebagai decision-oriented system yang dapat mendukung pengambilan keputusan berbasis data.
 
 ---
 
 # 📦 Repository
 
 ```
-https://github.com/Siti-Magfiratun-Warahmah/Big-Data-Praktikum05-Siti-Magfiratun-Warahmah-230104040059
+https://github.com/Siti-Magfiratun-Warahmah/Big-Data-Praktikum06-Siti-Magfiratun-Warahmah-230104040059
 ```
